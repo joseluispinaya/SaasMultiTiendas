@@ -1,0 +1,42 @@
+﻿/* Estilos específicos para darle vida a la página de inicio */
+.tarjeta-bienvenida {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.img-bienvenida {
+    max-width: 100%;
+    height: auto;
+    /* Le damos un borde suave a tu imagen para que se integre bien */
+    border-radius: 15px;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+    .img-bienvenida:hover {
+        transform: scale(1);
+    }
+
+.buscador-inicio {
+    font-size: 2.2rem !important; /* Letra gigantesca */
+    height: 90px;
+    border: 4px solid var(--color-primario, #0d6efd);
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.15);
+}
+
+    .buscador-inicio::placeholder {
+        color: #adb5bd;
+        font-weight: normal;
+    }
+
+    .buscador-inicio:focus {
+        box-shadow: 0 8px 30px rgba(13, 110, 253, 0.3);
+        border-color: #0b5ed7;
+        outline: none;
+    }
