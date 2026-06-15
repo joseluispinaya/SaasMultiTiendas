@@ -43,7 +43,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BCrypt.Net-Next, Version=4.1.0.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net-Next.4.1.0\lib\net462\BCrypt.Net-Next.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -88,8 +104,14 @@
     <Content Include="assets\plugins\toastr\toastr.min.css" />
     <Content Include="assets\plugins\toastr\toastr.min.js" />
     <Content Include="Inicio.aspx" />
+    <Content Include="js\Login.js" />
     <Content Include="js\Masterpa.js" />
+    <Content Include="js\PageBuscador.js" />
+    <Content Include="js\PagePedidos.js" />
     <Content Include="js\PageProductos.js" />
+    <Content Include="Login.aspx" />
+    <Content Include="PageBuscador.aspx" />
+    <Content Include="PagePedidos.aspx" />
     <Content Include="PageProductos.aspx" />
     <Content Include="PageReportes.aspx" />
     <Content Include="Web.config" />
@@ -102,12 +124,33 @@
     <Compile Include="Inicio.aspx.designer.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PageBuscador.aspx.cs">
+      <DependentUpon>PageBuscador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBuscador.aspx.designer.cs">
+      <DependentUpon>PageBuscador.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PageMaster.Master.cs">
       <DependentUpon>PageMaster.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="PageMaster.Master.designer.cs">
       <DependentUpon>PageMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="PagePedidos.aspx.cs">
+      <DependentUpon>PagePedidos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PagePedidos.aspx.designer.cs">
+      <DependentUpon>PagePedidos.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageProductos.aspx.cs">
       <DependentUpon>PageProductos.aspx</DependentUpon>
@@ -124,6 +167,7 @@
       <DependentUpon>PageReportes.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilidadesj.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

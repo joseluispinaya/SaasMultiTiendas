@@ -4,7 +4,7 @@ let tablaData;
 let idEditar = 0;
 
 $(document).ready(function () {
-    //listaProductos();
+    listaProductos();
 });
 
 function listaProductos() {
@@ -65,30 +65,58 @@ function listaProductos() {
             }
         },
         "columns": [
-            // 1. Columna Codigo
-            { "data": "Codigo" },
-            // 2. Columna Producto (Nombre + Descripcion)
-            { "data": "Nombre" },
+            // 1. Columna Codigo (Estilo etiqueta)
+            {
+                "data": "Codigo",
+                "render": function (data, type, row) {
+                    return `<span class="badge bg-secondary fs-6 p-2">${data}</span>`;
+                }
+            },
+            // 2. Columna Producto (Nombre Arriba + Descripción Abajo)
+            {
+                "data": "Nombre",
+                "render": function (data, type, row) {
+                    // Si tiene descripción, la ponemos debajo en gris y más pequeña
+                    let descripcion = row.Descripcion
+                        ? `<br><small class="text-muted"><i class="fas fa-angle-right me-1"></i>${row.Descripcion}</small>`
+                        : '';
+
+                    // El nombre del producto va en negrita y grande (fs-5)
+                    return `<span class="fw-bold fs-6 text-dark">${data}</span>${descripcion}`;
+                }
+            },
             // 3. Columna Precio Compra
-            { "data": "PrecioCompra" },
-            // 4. Columna Precio Venta
-            { "data": "PrecioVenta" },
+            {
+                "data": "PrecioCompra",
+                "className": "text-end",
+                "render": function (data) {
+                    return `<span class="text-secondary fs-5">${parseFloat(data).toFixed(2)} Bs.</span>`;
+                }
+            },
+            // 4. Columna Precio Venta (Resaltado en verde/success)
+            {
+                "data": "PrecioVenta",
+                "className": "text-end",
+                "render": function (data) {
+                    return `<span class="fw-bold text-success fs-5">${parseFloat(data).toFixed(2)} Bs.</span>`;
+                }
+            },
             // 5. Columna Acción
             {
-                "data": null, // null porque no depende de un solo campo, usamos toda la fila
+                "data": null,
+                "orderable": false,
+                "searchable": false,
+                "className": "text-center",
                 "render": function (data, type, row) {
-                    return `<div class="text-center">
-                                <button class="btn btn-primary btn-editar me-2" title="Editar">
+                    return `<div class="d-flex justify-content-center">
+                                <button class="btn btn-outline-primary btn-editar me-2 shadow-sm" title="Editar">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
-                                <button class="btn btn-info btn-detalle" title="Ver Detalles">
+                                <button class="btn btn-outline-info btn-detalle shadow-sm" title="Ver Detalles">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>`;
-                },
-                "orderable": false,
-                "searchable": false,
-                "className": "text-center"
+                }
             }
         ],
         // IMPORTANTE: En modo Server-Side con tu SP actual, no estamos manejando ordenamiento dinámico por columnas,
@@ -138,7 +166,7 @@ $('#tbProductos tbody').on('click', '.btn-detalle', function () {
         "Precio Compra: " + data.PrecioCompra + "\n" +
         "Precio Venta: " + data.PrecioVenta + "\n\n" +
         "Estado Actual: " + estadoTexto + "\n" +
-        "-----------------------------------\n\n" +
+        "-----------------------------------\n" +
         "Descripcion: " + data.Descripcion;
 
     swal({

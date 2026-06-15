@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PageMaster.Master" AutoEventWireup="true" CodeBehind="PageProductos.aspx.cs" Inherits="CapaPresentacion.PageProductos" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.bootstrap5.css" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
@@ -9,23 +11,32 @@
                     <h5 class="card-title text-white">Lista de Productos Registrados</h5>
                 </div>
                 <div class="card-body p-4">
-                    <div class="row mb-4">
-                        <div class="col-md-6 offset-md-3 text-center">
-                            <button type="button" id="btnAddNuevoReg" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalProductos">
-                                <i class="fas fa-user-plus me-2"></i>Nuevo Registro
+                    <div class="row mb-4 align-items-center bg-light p-3 rounded-3 border">
+                        <div class="col-md-8 mb-3 mb-md-0">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle fa-3x text-primary me-3"></i>
+                                <div>
+                                    <h5 class="mb-1 fw-bold text-dark">Gestión de Inventario</h5>
+                                    <span class="text-muted">Presione el botón para registrar nueva mercadería o use la tabla para ver y editar los precios actuales.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-md-end text-center">
+                            <button type="button" id="btnAddNuevoReg" class="btn btn-primary btn-lg shadow-sm">
+                                <i class="fas fa-box-open me-2"></i>Nuevo Producto
                             </button>
                         </div>
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover table-striped table-bordered" id="tbProductos" style="width: 100%">
-                            <thead>
+                    <div class="shadow-sm rounded">
+                        <table class="table table-hover table-striped align-middle" id="tbProductos" style="width: 100%; font-size: 15px;">
+                            <thead class="table-dark">
                                 <tr>
-                                    <th>Codigo</th>
-                                    <th>Producto</th>
-                                    <th class="text-end">Precio Compra (Bs.)</th>
-                                    <th class="text-end">Precio Venta (Bs.)</th>
-                                    <th class="text-center">Acción</th>
+                                    <th style="width: 15%;">Código</th>
+                                    <th style="width: 35%;">Producto</th>
+                                    <th class="text-end" style="width: 15%;">P. Compra (Bs.)</th>
+                                    <th class="text-end" style="width: 15%;">P. Venta (Bs.)</th>
+                                    <th class="text-center" style="width: 20%;">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,5 +86,10 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="footer" runat="server">
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
+
     <script src="js/PageProductos.js?v=<%= DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/javascript"></script>
 </asp:Content>

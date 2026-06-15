@@ -41,6 +41,18 @@
                         <i class="fas fa-box me-2"></i> <span class="sidebar-texto">Productos</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="PageBuscador.aspx" title="Buscar Producto">
+                        <i class="fas fa-search me-2"></i><span class="sidebar-texto">Buscador</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="PagePedidos.aspx" title="Lista Pedidos">
+                        <i class="fas fa-box me-2"></i><span class="sidebar-texto">Pedidos</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
@@ -59,7 +71,7 @@
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark" id="userMenu" data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle fa-2x me-2 text-secondary"></i>
-                        <span class="d-none d-sm-inline">Usuario</span>
+                        <span id="lblNombreRol" class="d-none d-sm-inline">Usuario</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow">
                         <li><a class="dropdown-item py-2" href="javascript:void(0)" id="btnCerrarSesion"><i class="fas fa-sign-out-alt me-2"></i> Salir</a></li>
@@ -87,6 +99,7 @@
     <script src="assets/plugins/loadingoverlay/loadingoverlay.js"></script>
 
     <script src="assets/js/zero-admin.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
 
     <script src="js/Masterpa.js?v=<%= DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/javascript"></script>
 

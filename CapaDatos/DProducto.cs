@@ -210,5 +210,54 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<List<ListaProdOfflineDTO>> ListaProductosOffline(int IdNegocio)
+        {
+            try
+            {
+                List<ListaProdOfflineDTO> rptLista = new List<ListaProdOfflineDTO>();
+
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand comando = new SqlCommand("usp_ObtenerCatalogoOffline", con))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.AddWithValue("@IdNegocio", IdNegocio);
+                        con.Open();
+
+                        using (SqlDataReader dr = comando.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                rptLista.Add(new ListaProdOfflineDTO
+                                {
+                                    IdProducto = Convert.ToInt32(dr["IdProducto"]),
+                                    Codigo = dr["Codigo"].ToString(),
+                                    Nombre = dr["Nombre"].ToString(),
+                                    Descripcion = dr["Descripcion"].ToString(),
+                                    PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"])
+                                });
+                            }
+                        }
+                    }
+                }
+                return new Respuesta<List<ListaProdOfflineDTO>>()
+                {
+                    Estado = true,
+                    Data = rptLista,
+                    Mensaje = "Lista obtenidos correctamente"
+                };
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier error inesperado
+                return new Respuesta<List<ListaProdOfflineDTO>>()
+                {
+                    Estado = false,
+                    Mensaje = "Ocurrió un error: " + ex.Message,
+                    Data = null
+                };
+            }
+        }
+
     }
 }

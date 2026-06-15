@@ -1,4 +1,72 @@
 ﻿
+// VARIABLE GLOBAL DEL USUARIO (Disponible para páginas hijas)
+let usuarioGlobal = null;
+
+$(document).ready(function () {
+
+    const usuarioLog = sessionStorage.getItem('clienteTienda');
+
+    if (!usuarioLog) {
+        window.location.replace('Login.aspx');
+        return;
+    }
+
+    try {
+        const usua = JSON.parse(usuarioLog);
+        // Asignamos el valor a la variable global
+        usuarioGlobal = usua;
+
+        $("#lblNombreNegocio").text(usua.NombreTienda);
+        $("#lblNombreRol").text(usua.RolDescripcion);
+
+    } catch (error) {
+        console.error("Error leyendo sesión", error);
+        sessionStorage.clear();
+        window.location.replace('Login.aspx');
+    }
+
+});
+
+$("#btnCerrarSesion").on("click", function (e) {
+    e.preventDefault();
+
+    // Opcional: Un SweetAlert preguntando si está seguro (Mejora de UX)
+    swal({
+        title: "¿Cerrar Sesión?",
+        text: "¿Estás seguro que deseas salir del sistema?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc3545",
+        confirmButtonText: "Sí, salir",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: false
+    }, function () {
+
+        // Llamada AJAX a tu WebMethod perfecto
+        $.ajax({
+            type: "POST",
+            url: "Inicio.aspx/CerrarSesion",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.d.Estado) {
+
+                    sessionStorage.clear();
+
+                    // Redirigimos al Login
+                    window.location.replace('Login.aspx');
+                } else {
+                    swal("Error", "No se pudo cerrar la sesión correctamente.", "error");
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                swal("Error", "Fallo de comunicación con el servidor.", "error");
+            }
+        });
+    });
+});
+
 function MostrarAlerta(titulo, mensaje, tipo) {
     // Si no se envía un tipo, por defecto será 'success'
     swal(titulo, mensaje, tipo || "success");
@@ -79,32 +147,6 @@ function MostrarToastFijo(mensaje, titulo) {
         "closeButton": true,        // Obligamos a que tenga el botón de cerrar
         "progressBar": false        // Quitamos la barra porque el tiempo es infinito
     });
-}
-
-// Asumiendo que tu botón de salir tiene el id "btnCerrarSesion" NombreRol
-$("#btnCerrarSesion").on("click", function (e) {
-    e.preventDefault();
-
-    // Opcional: Un SweetAlert preguntando si está seguro (Mejora de UX)
-    swal({
-        title: "¿Cerrar Sesión?",
-        text: "¿Estás seguro que deseas salir del sistema?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#dc3545",
-        confirmButtonText: "Sí, salir",
-        cancelButtonText: "Cancelar",
-        closeOnConfirm: false
-    }, function () {
-
-        // Llamada AJAX a tu WebMethod perfecto
-        EjecutarCierreSesion();
-    });
-});
-
-function EjecutarCierreSesion() {
-    sessionStorage.clear();
-    window.location.replace('Login.aspx');
 }
 
 // fin codigo

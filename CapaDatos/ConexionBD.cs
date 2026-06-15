@@ -28,7 +28,7 @@ namespace CapaDatos
         {
             SqlConnection conexion = new SqlConnection
             {
-                ConnectionString = "Data Source=.;Initial Catalog=ChevereDB;Integrated Security=True"
+                ConnectionString = "Data Source=.;Initial Catalog=SaasMultiTienda;Integrated Security=True"
             };
 
             return conexion;
