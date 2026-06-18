@@ -29,5 +29,19 @@ namespace CapaNegocio
             return DUsuarios.GetInstance().LoginUsuario(UsuarioSis);
         }
 
+        public Respuesta<List<EUsuarios>> ListaUsuariosNegocio(int IdNegocio)
+        {
+            return DUsuarios.GetInstance().ListaUsuariosNegocio(IdNegocio);
+        }
+
+        public Respuesta<bool> VerificarEstado(int IdNegocio)
+        {
+            return DUsuarios.GetInstance().VerificarEstado(IdNegocio);
+        }
+
+        public Respuesta<bool> EstadoPermisos(int IdUsuario, bool Permisos)
+        {
+            return DUsuarios.GetInstance().EstadoPermisos(IdUsuario, Permisos);
+        }
     }
 }

@@ -44,5 +44,10 @@ namespace CapaNegocio
         {
             return DProducto.GetInstance().ListaProductosOffline(IdNegocio);
         }
+
+        public Respuesta<List<ListaProdOfflineDTO>> ObtenerFiltroProductoNegocio(int idNegocio, string busqueda)
+        {
+            return DProducto.GetInstance().ObtenerFiltroProductoNegocio(idNegocio, busqueda);
+        }
     }
 }

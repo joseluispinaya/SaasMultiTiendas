@@ -1,4 +1,6 @@
-﻿using CapaEntidad.Responses;
+﻿using CapaEntidad.Entidades;
+using CapaEntidad.Responses;
+using CapaNegocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +45,26 @@ namespace CapaPresentacion
             catch (Exception ex)
             {
                 return new Respuesta<bool> { Estado = false, Mensaje = ex.Message };
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public static Respuesta<bool> VerificarEstado()
+        {
+            if (HttpContext.Current.Session["UsuarioLogueado"] == null)
+            {
+                return new Respuesta<bool> { Estado = false, Valor = "error", Mensaje = "Su sesión ha expirado. Recargue la página." };
+            }
+
+            try
+            {
+                EUsuarios usuari = (EUsuarios)HttpContext.Current.Session["UsuarioLogueado"];
+
+                return NUsuarios.GetInstance().VerificarEstado(usuari.IdNegocio);
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<bool> { Estado = false, Valor = "error", Mensaje = "Ocurrió un error: " + ex.Message };
             }
         }
 

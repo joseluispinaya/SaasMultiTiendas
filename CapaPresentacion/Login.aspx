@@ -125,12 +125,12 @@
                     <div>
                         
                         <div class="form-floating mb-4">
-                            <input type="text" class="form-control input-neon" id="txtUsuario" placeholder="Usuario" autocomplete="off">
+                            <input type="text" class="form-control input-neon" id="txtUsuario" placeholder="Usuario" autocomplete="off" value="wilma1969">
                             <label for="txtUsuario"><i class="fas fa-user me-2"></i>Nombre de Usuario</label>
                         </div>
 
                         <div class="form-floating mb-4 position-relative">
-                            <input type="password" class="form-control input-neon" id="txtClave" placeholder="Contraseña">
+                            <input type="password" class="form-control input-neon" id="txtClave" placeholder="Contraseña" value="123456789">
                             <label for="txtClave"><i class="fas fa-lock me-2"></i>Contraseña</label>
                             
                             <i class="fas fa-eye toggle-password" id="btnVerClave" title="Mostrar/Ocultar Contraseña"></i>

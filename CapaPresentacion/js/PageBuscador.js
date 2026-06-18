@@ -103,12 +103,12 @@ function formatoResultados(data) {
 
     var contenedor = $(
         `<div class="d-flex align-items-center p-1">
-            <div class="bg-light border rounded text-center me-3 d-flex align-items-center justify-content-center" style="height:45px; width:45px;">
-                <i class="fas fa-box text-primary fs-5"></i>
+            <div class="bg-light border rounded text-center mr-3 d-flex align-items-center justify-content-center" style="height:45px; width:45px;">
+                <i class="fas fa-box text-primary" style="font-size: 1.25rem;"></i>
             </div>
             <div>
                 <div style="font-weight: bold; color: #333; font-size: 1.05em;">${data.nombre}</div>
-                <div style="font-size: 0.85em; color: #666;">Cód: ${data.codigo} | <span class="text-success fw-bold">Precio: ${parseFloat(data.precio).toFixed(2)} Bs.</span></div>
+                <div style="font-size: 0.85em; color: #666;">Cód: ${data.codigo} | <span class="text-dark fw-bold">Precio: ${parseFloat(data.precio).toFixed(2)} Bs.</span></div>
             </div>
          </div>`
     );

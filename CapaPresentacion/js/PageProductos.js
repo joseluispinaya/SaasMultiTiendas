@@ -68,37 +68,42 @@ function listaProductos() {
             // 1. Columna Codigo (Estilo etiqueta)
             {
                 "data": "Codigo",
+                "className": "text-center align-middle",
                 "render": function (data, type, row) {
-                    return `<span class="badge bg-secondary fs-6 p-2">${data}</span>`;
+                    return `<span class="badge badge-success p-2" style="font-size: 0.85rem;">${data}</span>`;
                 }
             },
             // 2. Columna Producto (Nombre Arriba + Descripción Abajo)
             {
                 "data": "Nombre",
+                "className": "align-middle",
                 "render": function (data, type, row) {
-                    // Si tiene descripción, la ponemos debajo en gris y más pequeña
-                    let descripcion = row.Descripcion
-                        ? `<br><small class="text-muted"><i class="fas fa-angle-right me-1"></i>${row.Descripcion}</small>`
-                        : '';
-
-                    // El nombre del producto va en negrita y grande (fs-5)
-                    return `<span class="fw-bold fs-6 text-dark">${data}</span>${descripcion}`;
+                    return `<div>
+                                <span class="font-weight-bold text-dark" style="font-size: 1.05rem;">${data}</span><br>
+                                <small class="text-muted"><i class="fas fa-angle-right mr-1"></i>${row.Descripcion || 'Sin descripcion'}</small>
+                            </div>`;
                 }
             },
             // 3. Columna Precio Compra
             {
                 "data": "PrecioCompra",
-                "className": "text-end",
+                "className": "text-center align-middle",
                 "render": function (data) {
-                    return `<span class="text-secondary fs-5">${parseFloat(data).toFixed(2)} Bs.</span>`;
+                    return `
+                        <span class="badge badge-light border border-secondary text-dark p-2 shadow-sm" style="font-size: 0.85rem;">
+                            <i class="fas fa-money-bill text-success mr-1"></i> ${parseFloat(data).toFixed(2)} Bs.
+                        </span>`;
                 }
             },
             // 4. Columna Precio Venta (Resaltado en verde/success)
             {
                 "data": "PrecioVenta",
-                "className": "text-end",
+                "className": "text-center align-middle",
                 "render": function (data) {
-                    return `<span class="fw-bold text-success fs-5">${parseFloat(data).toFixed(2)} Bs.</span>`;
+                    return `
+                        <span class="badge badge-light border border-secondary text-dark p-2 shadow-sm" style="font-size: 0.85rem;">
+                            <i class="fas fa-money-bill text-success mr-1"></i> ${parseFloat(data).toFixed(2)} Bs.
+                        </span>`;
                 }
             },
             // 5. Columna Acción
@@ -109,7 +114,7 @@ function listaProductos() {
                 "className": "text-center",
                 "render": function (data, type, row) {
                     return `<div class="d-flex justify-content-center">
-                                <button class="btn btn-outline-primary btn-editar me-2 shadow-sm" title="Editar">
+                                <button class="btn btn-outline-primary btn-editar mr-2 shadow-sm" title="Editar">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
                                 <button class="btn btn-outline-info btn-detalle shadow-sm" title="Ver Detalles">
@@ -140,9 +145,14 @@ $('#tbProductos tbody').on('click', '.btn-editar', function () {
     idEditar = data.IdProducto;
 
     $("#txtNombre").val(data.Nombre);
-    $("#txtPrecioCompra").val(data.PrecioCompra);
-    $("#txtPrecioVenta").val(data.PrecioVenta);
     $("#txtDescripcion").val(data.Descripcion);
+
+    // SOLUCIÓN AL CARGAR: Forzamos a que sea un número con punto decimal
+    $("#txtPrecioCompra").val(Number(data.PrecioCompra).toFixed(2));
+    $("#txtPrecioVenta").val(Number(data.PrecioVenta).toFixed(2));
+
+    //$("#txtPrecioCompra").val(data.PrecioCompra);
+    //$("#txtPrecioVenta").val(data.PrecioVenta);
 
     let textoSms = `Editar el Producto: ${data.Codigo}.`;
 
@@ -184,8 +194,8 @@ $("#btnAddNuevoReg").on("click", function () {
     idEditar = 0;
 
     $("#txtNombre").val("");
-    $("#txtPrecioCompra").val("0");
-    $("#txtPrecioVenta").val("0");
+    $("#txtPrecioCompra").val("");
+    $("#txtPrecioVenta").val("");
     $("#txtDescripcion").val("");
 
     $("#tituloLabel").text("Nuevo Registro");
@@ -213,18 +223,22 @@ $('#btnGuardarCambios').on('click', function () {
         return;
     }
 
-    let precioVenta = $("#txtPrecioVenta").val().trim();
-    let precioCompra = $("#txtPrecioCompra").val().trim();
+    // SOLUCIÓN AL LEER: Reemplazamos cualquier coma por un punto antes de validar
+    let strPrecioVenta = $("#txtPrecioVenta").val().trim().replace(',', '.');
+    let strPrecioCompra = $("#txtPrecioCompra").val().trim().replace(',', '.');
 
-    if (precioVenta === "" || isNaN(precioVenta) || parseFloat(precioVenta) <= 0) {
-        MostrarToastZer("El Precio de venta. debe ser un número válido mayor a 0.", "Atención", "warning");
+    let precioVenta = parseFloat(strPrecioVenta);
+    let precioCompra = parseFloat(strPrecioCompra);
+
+    if (isNaN(precioVenta) || precioVenta <= 0) {
+        MostrarToastZer("El Precio de venta debe ser un número válido mayor a 0.", "Atención", "warning");
         $("#txtPrecioVenta").focus();
         habilitarBoton();
         return;
     }
 
-    if (precioCompra === "" || isNaN(precioCompra) || parseFloat(precioCompra) <= 0) {
-        MostrarToastZer("El Precio de compra. debe ser un número válido mayor a 0.", "Atención", "warning");
+    if (isNaN(precioCompra) || precioCompra <= 0) {
+        MostrarToastZer("El Precio de compra debe ser un número válido mayor a 0.", "Atención", "warning");
         $("#txtPrecioCompra").focus();
         habilitarBoton();
         return;
@@ -234,8 +248,8 @@ $('#btnGuardarCambios').on('click', function () {
         IdProducto: idEditar,
         Nombre: $("#txtNombre").val().trim(),
         Descripcion: $("#txtDescripcion").val().trim(),
-        PrecioCompra: parseFloat(precioCompra),
-        PrecioVenta: parseFloat(precioVenta)
+        PrecioCompra: precioCompra, // Ya es un número limpio con punto
+        PrecioVenta: precioVenta // Ya es un número limpio con punto
     }
 
     if (idEditar === 0) {

@@ -1,95 +1,131 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PageMaster.Master" AutoEventWireup="true" CodeBehind="PagePedidos.aspx.cs" Inherits="CapaPresentacion.PagePedidos" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.bootstrap5.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/pluginzero/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* Pequeño ajuste para que Select2 use la altura de Bootstrap 5 */
+        .select2-container .select2-selection--single {
+            height: 45px !important;
+            padding-top: 8px;
+            border: 1px solid #ced4da;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            top: 9px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header bg-primary">
-                <h5 class="card-title text-white">Lista de Productos Registrados</h5>
-            </div>
-            <div class="card-body p-4">
-                <div class="row mb-4 align-items-center bg-light p-3 rounded-3 border">
-                    <div class="col-md-8 mb-3 mb-md-0">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-info-circle fa-3x text-primary me-3"></i>
-                            <div>
-                                <h5 class="mb-1 fw-bold text-dark">Gestión de Inventario</h5>
-                                <span class="text-muted">Presione el botón para registrar nueva mercadería o use la tabla para ver y editar los precios actuales.</span>
+        <div class="col-lg-12">
+            <div class="card shadow-sm mb-4 border-0" style="border-top: 5px solid #ffc107 !important;">
+                <%--<div class="card-header bg-primary py-2 px-4">
+                    <h3 class="card-title m-0"><i class="fas fa-shopping-basket mr-2"></i>Pedidos de Compra</h3>
+                </div>--%>
+                <div class="card-body">
+                    <div class="border rounded p-3 shadow-sm bg-white mb-4" style="border-left: 4px solid #ffc107 !important;">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="alert alert-info mb-4">
+                                    <div class="mb-2 mb-md-0">
+                                        <h4 class="font-weight-bold">
+                                            <i class="fas fa-info-circle text-primary mr-2"></i>Gestión de Pedidos
+                                        </h4>
+                                        <small class="text-dark" style="font-size: 14px;">Gestion de productos faltantes para realizar compras generando un pdf con la lista necesaria y precios.</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cboBuscarProducto" class="small font-weight-bold text-muted mb-2" style="font-size: 0.85rem;">
+                                        <i class="fas fa-search mr-1"></i>Buscar Producto
+                                    </label>
+                                    <select class="form-control" id="cboBuscarProducto" style="width: 100%;">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="alert alert-primary border text-center">
+
+                                    <%--<input type="hidden" id="txtIdProducto">
+                                    <input type="hidden" id="txtPrecioCompra">--%>
+
+                                    <h4 class="text-dark fw-bold mb-1" id="lblNombreProducto">Esperando...</h4>
+                                    <p class="text-dark mb-3" id="lblDescripcion">Esperando...</p>
+                                    <hr>
+                                    <span class="text-dark d-block mb-1">Precio de Compra</span>
+                                    <h4 class="text-success fw-bolder mb-0" id="lblPrecioCompra">0.00 Bs.</h4>
+
+                                    <p class="m-t-20">
+                                        <button id="btnAgregar" type="button" class="btn btn-primary waves-effect waves-light">
+                                            <i class="fas fa-cart-plus mr-2"></i>AGREGAR A LISTA
+                                        </button>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 text-md-end text-center">
-                        <button type="button" id="btnAddNuevoReg" class="btn btn-primary btn-lg shadow-sm">
-                            <i class="fas fa-box-open me-2"></i>Nuevo Producto
-                        </button>
-                    </div>
-                </div>
 
-                <div class="shadow-sm rounded">
-                    <table class="table table-hover table-striped align-middle" id="tbProductos" style="width: 100%; font-size: 15px;">
-                        <thead class="table-dark">
-                            <tr>
-                                <th style="width: 15%;">Código</th>
-                                <th style="width: 35%;">Producto</th>
-                                <th class="text-end" style="width: 15%;">P. Compra (Bs.)</th>
-                                <th class="text-end" style="width: 15%;">P. Venta (Bs.)</th>
-                                <th class="text-center" style="width: 20%;">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <%--<div class="table-responsive mb-4">
+                        <table class="table table-sm table-striped table-bordered table-hover text-center align-middle m-0" id="tbPedidos">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">Quitar</th>
+                                    <th>Código</th>
+                                    <th>Producto</th>
+                                    <th>Descripcion</th>
+                                    <th class="text-center">P. Compra (Bs.)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>--%>
+
+                    <div class="table-responsive bg-white p-2 border rounded shadow-sm">
+                        <table class="table table-sm table-bordered table-hover text-center align-middle m-0" id="tbPedidosPrue">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Producto</th>
+                                    <th>P. Compra</th>
+                                    <th>P. Venta</th>
+                                    <th style="width: 80px;">Quitar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-md-4">
+                            <button type="button" id="btnReporte" class="btn btn-warning btn-block btn-lg shadow font-weight-bold">
+                                <i class="fas fa-save mr-2"></i>GENERAR LISTA PDF
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="modalProductos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tituloLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h1 class="modal-title fs-5" id="tituloLabel">Producto</h1>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="txtNombre" class="form-label">Nombre del Producto</label>
-                    <input type="text" class="form-control input-validar" id="txtNombre" name="Nombre Producto">
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="txtPrecioCompra" class="form-label">Precio Compra</label>
-                        <input type="number" class="form-control input-validar" id="txtPrecioCompra" name="Precio Compra" min="0" value="0">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="txtPrecioVenta" class="form-label">Precio Venta</label>
-                        <input type="number" class="form-control input-validar" id="txtPrecioVenta" name="Precio Venta" min="0" value="0">
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="txtDescripcion" class="form-label">Descripcion del producto</label>
-                    <input type="text" class="form-control input-validar" id="txtDescripcion" name="Descripcion del producto">
-                </div>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" id="btnGuardarCambios" class="btn btn-primary">Guardar Cambios</button>
-            </div>
-        </div>
-    </div>
-</div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="footer" runat="server">
-    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
-    <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
-    <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
+    <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script src="assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+    <script src="assets/pluginzero/select2/select2.min.js"></script>
+    <script src="assets/pluginzero/select2/es.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
     <script src="js/PagePedidos.js?v=<%= DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/javascript"></script>
 </asp:Content>

@@ -234,6 +234,7 @@ namespace CapaDatos
                                     Codigo = dr["Codigo"].ToString(),
                                     Nombre = dr["Nombre"].ToString(),
                                     Descripcion = dr["Descripcion"].ToString(),
+                                    PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"]),
                                     PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"])
                                 });
                             }
@@ -256,6 +257,46 @@ namespace CapaDatos
                     Mensaje = "Ocurrió un error: " + ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public Respuesta<List<ListaProdOfflineDTO>> ObtenerFiltroProductoNegocio(int idNegocio, string busqueda)
+        {
+            try
+            {
+                List<ListaProdOfflineDTO> rptLista = new List<ListaProdOfflineDTO>();
+
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("usp_FiltroProductos", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@IdNegocio", idNegocio);
+                        cmd.Parameters.AddWithValue("@Busqueda", busqueda);
+
+                        con.Open();
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                rptLista.Add(new ListaProdOfflineDTO
+                                {
+                                    IdProducto = Convert.ToInt32(dr["IdProducto"]),
+                                    Codigo = dr["Codigo"].ToString(),
+                                    Nombre = dr["Nombre"].ToString(),
+                                    Descripcion = dr["Descripcion"].ToString(),
+                                    PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"]),
+                                    PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"])
+                                });
+                            }
+                        }
+                    }
+                }
+                return new Respuesta<List<ListaProdOfflineDTO>> { Estado = true, Data = rptLista };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<List<ListaProdOfflineDTO>> { Estado = false, Mensaje = "Error BD: " + ex.Message };
             }
         }
 
