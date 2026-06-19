@@ -3,7 +3,9 @@
 let tablaData;
 let idEditar = 0;
 
+
 $(document).ready(function () {
+
     listaProductos();
 });
 
@@ -142,6 +144,12 @@ $('#tbProductos tbody').on('click', '.btn-editar', function () {
     }
 
     let data = tablaData.row(fila).data();
+
+    if (usuarioGlobal.IdRol !== 1 && !permiso) {
+        MostrarAlertaZeo("Atención", "No está habilitado para realizar Modificaciones.", "warning");
+        return;
+    }
+
     idEditar = data.IdProducto;
 
     $("#txtNombre").val(data.Nombre);
@@ -189,7 +197,23 @@ $('#tbProductos tbody').on('click', '.btn-detalle', function () {
 
 });
 
+$('#btnAddNuevoRegPruebas').on('click', function () {
+
+    // El rol 1 siempre tiene permiso
+    if (usuarioGlobal.IdRol !== 1 && !permiso) {
+        MostrarAlertaZeo("Atención", "No está habilitado para realizar Modificaciones.", "warning");
+        return;
+    }
+
+    MostrarAlertaZeo("Excelente", "Permisos activados para mosificaciones", "success");
+});
+
 $("#btnAddNuevoReg").on("click", function () {
+
+    if (usuarioGlobal.IdRol !== 1 && !permiso) {
+        MostrarAlertaZeo("Atención", "No está habilitado para realizar Modificaciones.", "warning");
+        return;
+    }
 
     idEditar = 0;
 

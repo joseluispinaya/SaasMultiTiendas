@@ -17,7 +17,7 @@
     <div class="row justify-content-center mt-4">
         <div class="col-md-8 col-lg-6">
 
-            <div class="card shadow-sm mb-4 border-0" style="border-top: 5px solid #004F9F !important;">
+            <div class="card shadow-sm mb-4 border-0" style="border-top: 5px solid #ffc107 !important;">
                 <%--<div class="card-header bg-primary text-white py-2 px-4 border-0">
                     <h6 class="card-title m-0"><i class="fas fa-search mr-2"></i>Consulta Rápida</h6>
                 </div>--%>

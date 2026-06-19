@@ -385,8 +385,10 @@
     <Content Include="assets\pluginzero\sweetalert\sweetalert.js" />
     <Content Include="assets\pluginzero\toastr\toastr.min.css" />
     <Content Include="assets\pluginzero\toastr\toastr.min.js" />
+    <Content Include="BuscadorGrande.aspx" />
     <Content Include="images\mitiendita.png" />
     <Content Include="Inicio.aspx" />
+    <Content Include="js\BuscadorGrande.js" />
     <Content Include="js\Login.js" />
     <Content Include="js\Masterpa.js" />
     <Content Include="js\PageBuscador.js" />
@@ -394,6 +396,10 @@
     <Content Include="js\PageProductos.js" />
     <Content Include="js\PageUsuarios.js" />
     <Content Include="Login.aspx" />
+    <Content Include="PageAdmin\InicioAdmin.aspx" />
+    <Content Include="PageAdmin\jsAdmin\Masterpa.js" />
+    <Content Include="PageAdmin\jsAdmin\PageNegocios.js" />
+    <Content Include="PageAdmin\PageNegocios.aspx" />
     <Content Include="PageBuscador.aspx" />
     <Content Include="PagePedidos.aspx" />
     <Content Include="PageProductos.aspx" />
@@ -402,6 +408,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuscadorGrande.aspx.cs">
+      <DependentUpon>BuscadorGrande.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BuscadorGrande.aspx.designer.cs">
+      <DependentUpon>BuscadorGrande.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Inicio.aspx.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -415,6 +428,27 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PageAdmin\AdminMaster.Master.cs">
+      <DependentUpon>AdminMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageAdmin\AdminMaster.Master.designer.cs">
+      <DependentUpon>AdminMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="PageAdmin\InicioAdmin.aspx.cs">
+      <DependentUpon>InicioAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageAdmin\InicioAdmin.aspx.designer.cs">
+      <DependentUpon>InicioAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PageAdmin\PageNegocios.aspx.cs">
+      <DependentUpon>PageNegocios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageAdmin\PageNegocios.aspx.designer.cs">
+      <DependentUpon>PageNegocios.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageBuscador.aspx.cs">
       <DependentUpon>PageBuscador.aspx</DependentUpon>
@@ -557,6 +591,7 @@
     <Content Include="assets\scss\_responsive.scss" />
     <None Include="packages.config" />
     <Content Include="PageMaster.Master" />
+    <Content Include="PageAdmin\AdminMaster.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

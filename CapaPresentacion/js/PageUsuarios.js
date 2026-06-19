@@ -3,8 +3,44 @@ let tablaData;
 let idEditar = 0;
 
 $(document).ready(function () {
+    cargarRoles();
     listaUsuarios();
 });
+
+function cargarRoles() {
+
+    // Mostramos un texto de "Cargando..." mientras esperamos la respuesta
+    $("#cboRoles").html('<option value="">Cargando...</option>');
+
+    $.ajax({
+        url: "PageUsuarios.aspx/ListaRoles",
+        type: "POST",
+        data: "{}", // <-- Mejor compatibilidad con WebMethods sin parámetros
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
+        success: function (response) {
+            if (response.d.Estado) {
+
+                // 1. Empezamos con la opción por defecto
+                let opcionesHTML = '<option value="">Seleccione Rol</option>';
+
+                // 2. Concatenamos todas las opciones en la variable (en memoria)
+                $.each(response.d.Data, function (i, row) {
+                    opcionesHTML += `<option value="${row.IdRol}">${row.Descripcion}</option>`;
+                });
+
+                $("#cboRoles").html(opcionesHTML);
+
+            } else {
+                $("#cboRoles").html('<option value="">Error al cargar</option>');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
+            $("#cboRoles").html('<option value="">Error de conexión</option>');
+        }
+    });
+}
 
 function listaUsuarios() {
     if ($.fn.DataTable.isDataTable("#tbUsuarios")) {
@@ -76,8 +112,8 @@ function listaUsuarios() {
                     <button class="btn btn-outline-primary btn-editar mr-2 shadow-sm" title="Editar">
                         <i class="fas fa-pencil-alt"></i>
                     </button>
-                    <button class="btn btn-outline-info btn-detalle shadow-sm" title="Ver Detalles">
-                        <i class="fas fa-eye"></i>
+                    <button class="btn btn-outline-info btn-detalle shadow-sm" title="Privilegio">
+                        <i class="fas fa-shield-alt"></i>
                     </button>
                 </div>`;
                 }
@@ -99,6 +135,12 @@ $('#tbUsuarios tbody').on('click', '.btn-detalle', function () {
     }
 
     let data = tablaData.row(fila).data();
+
+    if (usuarioGlobal.IdRol !== 1 && !permiso) {
+        MostrarAlertaZeo("Atención", "No está habilitado para realizar Modificaciones.", "warning");
+        return;
+    }
+
     let estatus = !data.Permisos;
     let permisoTexto = estatus ? "✅ ACTIVAR" : "❌ INACTIVAR";
 
@@ -145,5 +187,126 @@ $('#tbUsuarios tbody').on('click', '.btn-detalle', function () {
         });
 
 });
+
+$('#tbUsuarios tbody').on('click', '.btn-editar', function () {
+
+    let fila = $(this).closest('tr');
+    if (fila.hasClass('child')) {
+        fila = fila.prev();
+    }
+
+    let data = tablaData.row(fila).data();
+
+    if (usuarioGlobal.IdRol !== 1 && !permiso) {
+        MostrarAlertaZeo("Atención", "No está habilitado para realizar Modificaciones.", "warning");
+        return;
+    }
+
+    idEditar = data.IdUsuario;
+
+    $("#txtNombres").val(data.NombreCompleto);
+    $("#txtNroci").val(data.NroCi);
+    $("#txtNameuser").val(data.UsuarioSis);
+    $("#cboRoles").val(data.IdRol);
+
+    $("#cboEstado").val(data.Activo ? 1 : 0).prop("disabled", false);
+
+    $("#tituloLabel").text("Editar Registro");
+    $("#modalUsuarios").modal("show");
+});
+
+$("#btnAddNuevoReg").on("click", function () {
+
+    if (usuarioGlobal.IdRol !== 1 && !permiso) {
+        MostrarAlertaZeo("Atención", "No está habilitado para realizar Modificaciones.", "warning");
+        return;
+    }
+
+    idEditar = 0;
+
+    $("#txtNombres").val("");
+    $("#txtNroci").val("");
+    $("#txtNameuser").val("");
+    $("#cboRoles").val("");
+
+    $("#cboEstado").val(1).prop("disabled", true);
+
+    $("#tituloLabel").text("Nuevo Registro");
+
+    $("#modalUsuarios").modal("show");
+
+})
+
+function habilitarBoton() {
+    $('#btnGuardarCambios').prop('disabled', false);
+}
+
+$("#btnGuardarCambios").on("click", function () {
+
+    $('#btnGuardarCambios').prop('disabled', true);
+    let idRol = $("#cboRoles").val();
+
+    const inputs = $("#modalUsuarios input.input-validar").serializeArray();
+    const inputs_sin_valor = inputs.filter(item => item.value.trim() === "");
+
+    if (inputs_sin_valor.length > 0) {
+        const mensaje = `Debe completar el campo: "${inputs_sin_valor[0].name}"`;
+        MostrarToastZer(mensaje, "Atención", "warning");
+
+        $(`input[name="${inputs_sin_valor[0].name}"]`).focus();
+        habilitarBoton();
+        return;
+    }
+
+    if (idRol === "") {
+        MostrarToastZer("Por favor, seleccionar un Rol.", "Atención", "warning");
+        $("#cboRoles").focus();
+        habilitarBoton();
+        return;
+    }
+
+    const objeto = {
+        IdUsuario: idEditar,
+        IdRol: parseInt(idRol),
+        NroCi: $("#txtNroci").val().trim(),
+        NombreCompleto: $("#txtNombres").val().trim(),
+        UsuarioSis: $("#txtNameuser").val().trim(),
+        Activo: ($("#cboEstado").val() === "1" ? true : false)
+    }
+
+    $("#modalUsuarios").find("div.modal-content").LoadingOverlay("show");
+
+    // 2. Enviar al Servidor
+    $.ajax({
+        type: "POST",
+        url: "PageUsuarios.aspx/GuardarOrEditUsuarios",
+        data: JSON.stringify({ objeto: objeto }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            $("#modalUsuarios").find("div.modal-content").LoadingOverlay("hide");
+            AlertaTimerTipo(
+                response.d.Estado ? '¡Excelente!' : 'Atención', // Título dinámico
+                response.d.Mensaje, // Texto del servidor
+                response.d.Valor // Icono (success/error/warning)
+            );
+
+            if (response.d.Estado) {
+                $("#modalUsuarios").modal("hide");
+                listaUsuarios();
+                idEditar = 0;
+            }
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            $("#modalUsuarios").find("div.modal-content").LoadingOverlay("hide");
+            MostrarToastZer("No se pudo conectar con el servidor.", "Atención", "error");
+        },
+        complete: function () {
+            habilitarBoton();
+        }
+    });
+
+})
 
 // fin

@@ -27,6 +27,80 @@ namespace CapaDatos
         }
         #endregion
 
+        public Respuesta<int> GuardarOrEditUsuarios(EUsuarios oModel)
+        {
+            Respuesta<int> response = new Respuesta<int>();
+            int resultadoCodigo = 0;
+            try
+            {
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("usp_GuardarOrEditUsuarios", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@IdUsuario", oModel.IdUsuario);
+                        cmd.Parameters.AddWithValue("@IdNegocio", oModel.IdNegocio);
+                        cmd.Parameters.AddWithValue("@IdRol", oModel.IdRol);
+                        cmd.Parameters.AddWithValue("@NroCi", oModel.NroCi);
+                        cmd.Parameters.AddWithValue("@NombreCompleto", oModel.NombreCompleto);
+                        cmd.Parameters.AddWithValue("@UsuarioSis", oModel.UsuarioSis);
+                        cmd.Parameters.AddWithValue("@ClaveHash", string.IsNullOrEmpty(oModel.ClaveHash) ? "" : oModel.ClaveHash);
+                        cmd.Parameters.AddWithValue("@Activo", oModel.Activo);
+
+                        SqlParameter outputParam = new SqlParameter("@Resultado", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputParam);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        resultadoCodigo = Convert.ToInt32(outputParam.Value);
+                    }
+                }
+                response.Data = resultadoCodigo;
+                switch (resultadoCodigo)
+                {
+                    case 1: // Duplicado
+                        response.Estado = false;
+                        response.Valor = "warning";
+                        response.Mensaje = "El Nro de CI ya se encuentra registrado por otro usuario.";
+                        break;
+
+                    case 2: // Registro Nuevo
+                        response.Estado = true;
+                        response.Valor = "success";
+                        response.Mensaje = "Registrado correctamente.";
+                        break;
+
+                    case 3: // Actualización
+                        response.Estado = true;
+                        response.Valor = "success";
+                        response.Mensaje = "Actualizado correctamente.";
+                        break;
+
+                    case 4:
+                        response.Estado = false;
+                        response.Valor = "warning";
+                        response.Mensaje = "El nombre de usuario (UsuarioSis) ya está en uso en el sistema";
+                        break;
+
+                    case 0: // Error
+                    default:
+                        response.Estado = false;
+                        response.Valor = "error";
+                        response.Mensaje = "No se pudo completar la operación.";
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Estado = false;
+                response.Valor = "error";
+                response.Mensaje = $"Error interno: {ex.Message}";
+            }
+            return response;
+        }
+
         public Respuesta<EUsuarios> LoginUsuario(string UsuarioSis)
         {
             try
@@ -227,6 +301,102 @@ namespace CapaDatos
                     Mensaje = "Ocurrió un error: " + ex.Message
                 };
             }
+        }
+
+        public Respuesta<List<ERoles>> ListaRoles()
+        {
+            try
+            {
+                List<ERoles> rptLista = new List<ERoles>();
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand comando = new SqlCommand("usp_ListaRoles", con))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        con.Open();
+                        using (SqlDataReader dr = comando.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                rptLista.Add(new ERoles
+                                {
+                                    IdRol = Convert.ToInt32(dr["IdRol"]),
+                                    Descripcion = dr["Descripcion"].ToString(),
+                                    Estado = Convert.ToBoolean(dr["Estado"])
+                                });
+                            }
+                        }
+                    }
+                }
+                return new Respuesta<List<ERoles>>()
+                {
+                    Estado = true,
+                    Data = rptLista,
+                    Mensaje = "Lista obtenida correctamente"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<List<ERoles>>()
+                {
+                    Estado = false,
+                    Data = null,
+                    Mensaje = $"Error al obtener la lista: {ex.Message}"
+                };
+            }
+        }
+
+        public Respuesta<bool> VerificarPermisoAccion(int IdUsuario)
+        {
+            Respuesta<bool> response = new Respuesta<bool>();
+            bool result = false;
+
+            try
+            {
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("usp_VerificarPermisoUser", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+
+                        SqlParameter outputParam = new SqlParameter("@Resultado", SqlDbType.Bit)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputParam);
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        result = Convert.ToBoolean(outputParam.Value);
+                    }
+                }
+
+                response.Data = result;
+
+                // Interpretamos el código que devuelve tu SP
+                if (result)
+                {
+                    response.Estado = true;
+                    response.Valor = "success";
+                    response.Mensaje = "Permisos Activado.";
+                }
+                else
+                {
+                    response.Estado = false;
+                    response.Valor = "error";
+                    response.Mensaje = "No tiene permisos para modificar. Comuníquese con el administrador.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Estado = false;
+                response.Valor = "error";
+                response.Mensaje = "Error en Base de Datos: " + ex.Message;
+            }
+
+            return response;
         }
 
     }

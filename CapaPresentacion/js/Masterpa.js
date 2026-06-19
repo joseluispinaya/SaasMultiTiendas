@@ -1,6 +1,7 @@
 ﻿
 // VARIABLE GLOBAL DEL USUARIO (Disponible para páginas hijas)
 let usuarioGlobal = null;
+let permiso = false;
 
 $(document).ready(function () {
     const usuarioLog = sessionStorage.getItem('clienteTienda');
@@ -13,6 +14,7 @@ $(document).ready(function () {
 
     // 2. Si existe, validamos con el servidor antes de pintar la interfaz
     verificarEstado();
+    verificarPermisos();
 });
 
 function verificarEstado() {
@@ -51,10 +53,10 @@ function verificarEstado() {
                     $("#lblNombreRol").text(usua.RolDescripcion);
                     $("#lblUsuarioname").text(usua.UsuarioSis);
                     $("#lblNombreRoldos").text(usua.RolDescripcion);
-                    $("#lblNombreNegocio").text(usua.NombreTienda);
+                    $("#lblNombreNegocio").text("Negocio: " + usua.NombreTienda);
 
                     // Mensaje de prueba (Lo puedes quitar después)
-                    //MostrarToastZer(response.d.Mensaje, "Excelente", response.d.Valor);
+                    //MostrarToastZer(response.d.Mensaje, "Bienvenido: " + , response.d.Valor);
 
                 } catch (error) {
                     console.error("El formato de la sesión local es inválido.", error);
@@ -66,6 +68,30 @@ function verificarEstado() {
             // Error de red o servidor 500
             console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
             MostrarToastZer("No se pudo verificar el estado de su suscripción.", "Error de conexión", "error");
+        }
+    });
+}
+
+function verificarPermisos() {
+    $.ajax({
+        url: "PageUsuarios.aspx/VerificarPermisoAccion",
+        type: "POST",
+        data: "{}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
+        success: function (response) {
+
+            if (response.d.Estado) {
+                permiso = true;
+            }
+            else {
+                permiso = false;
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            // Error de red o servidor 500
+            console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
+            MostrarToastZer("No se pudo verificar el estado de permisos.", "Error de conexión", "error");
         }
     });
 }

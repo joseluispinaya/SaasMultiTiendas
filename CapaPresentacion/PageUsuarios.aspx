@@ -50,6 +50,61 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalUsuarios" tabindex="-1" role="dialog" aria-labelledby="tituloLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title m-0" id="tituloLabel">Usuario</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="txtNombres">Nombre Completo</label>
+                            <input type="text" class="form-control form-new input-validar" id="txtNombres" name="Nombre Completo"
+                                placeholder="Nombre Completo" autocomplete="off">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="txtNroci">Nro CI</label>
+                            <input type="text" class="form-control form-new input-validar" id="txtNroci" name="Nro CI" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="txtNameuser">Nombre de Usuario</label>
+                            <input type="text" class="form-control form-new input-validar" id="txtNameuser" name="Nombre Usuario"
+                                placeholder="Ej. fercho2000" autocomplete="off">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cboRoles">Rol</label>
+                            <select class="custom-select" id="cboRoles">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="cboEstado">Estado</label>
+                                <select class="form-control form-new" id="cboEstado">
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-warning" data-dismiss="modal"><i class="fas fa-times-circle mr-2"></i>Cerrar</button>
+                    <button id="btnGuardarCambios" type="button" class="btn btn-sm btn-primary"><i class="fas fa-save mr-2"></i>Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="footer" runat="server">
 

@@ -24,6 +24,11 @@ namespace CapaNegocio
         }
         #endregion
 
+        public Respuesta<int> GuardarOrEditUsuarios(EUsuarios oModel)
+        {
+            return DUsuarios.GetInstance().GuardarOrEditUsuarios(oModel);
+        }
+
         public Respuesta<EUsuarios> LoginUsuario(string UsuarioSis)
         {
             return DUsuarios.GetInstance().LoginUsuario(UsuarioSis);
@@ -42,6 +47,16 @@ namespace CapaNegocio
         public Respuesta<bool> EstadoPermisos(int IdUsuario, bool Permisos)
         {
             return DUsuarios.GetInstance().EstadoPermisos(IdUsuario, Permisos);
+        }
+
+        public Respuesta<List<ERoles>> ListaRoles()
+        {
+            return DUsuarios.GetInstance().ListaRoles();
+        }
+
+        public Respuesta<bool> VerificarPermisoAccion(int IdUsuario)
+        {
+            return DUsuarios.GetInstance().VerificarPermisoAccion(IdUsuario);
         }
     }
 }

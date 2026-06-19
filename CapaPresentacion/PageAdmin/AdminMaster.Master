@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PageMaster.master.cs" Inherits="CapaPresentacion.PageMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminMaster.master.cs" Inherits="CapaPresentacion.PageAdmin.AdminMaster" %>
 
 <!DOCTYPE html>
 
@@ -11,16 +11,16 @@
     <meta content="ThemeDesign" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
-    <link href="assets/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/pluginzero/toastr/toastr.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="../assets/images/favicon.ico">
+    <link href="../assets/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/pluginzero/toastr/toastr.min.css" rel="stylesheet" />
 
     
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
-    <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/css/miestilo.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/icons.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/miestilo.css" rel="stylesheet" type="text/css"/>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -36,8 +36,6 @@
                     <div class="text-center">
                         <a href="javascript:void(0)" class="logo"><span>Mi </span>Tienda</a>
                         <a href="javascript:void(0)" class="logo-sm"><span>M</span></a>
-                        <%--<a href="Inicio.aspx" class="logo"><img src="assets/images/mitienda.png" height="35" alt="TIENDA"></a>
-                        <a href="Inicio.aspx" class="logo-sm"><img src="assets/images/logo_sm.png" height="28" alt="TIENDA"></a>--%>
                     </div>
                 </div>
 
@@ -61,11 +59,11 @@
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
-                                    <img src="assets/images/mitienda.png" alt="user-img" id="imgUsuarioMe" class="rounded-circle">
+                                    <img src="../assets/images/mitienda.png" alt="user-img" id="imgUsuarioMe" class="rounded-circle">
                                     <span class="profile-username">
-                                        <strong id="lblNombreRol">J</strong>
+                                        <strong id="lblNombreRol">Jose Luis</strong>
                                         <br />
-                                        <small id="lblUsuarioname">D</small>
+                                        <small id="lblUsuarioname">Super Admin</small>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -88,11 +86,11 @@
 
                     <div class="user-details">
                         <div class="text-center">
-                            <img src="assets/images/mitienda.png" alt="" id="imageUserMe" class="rounded-circle">
+                            <img src="../assets/images/mitienda.png" alt="" id="imageUserMe" class="rounded-circle">
                         </div>
                         <div class="user-info">
                             <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" id="lblNombreRoldos" data-toggle="dropdown" aria-expanded="false">U</a>
+                                <a href="#" class="dropdown-toggle" id="lblNombreRoldos" data-toggle="dropdown" aria-expanded="false">Ing. Pinaya</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="javascript:void(0)" class="dropdown-item">Perfil</a></li>
                                     <li class="dropdown-divider"></li>
@@ -110,27 +108,19 @@
 
                         <ul>
                             <li>
-                                <a href="Inicio.aspx" class="waves-effect"><i class="mdi mdi-store"></i><span>Inicio <span class="badge badge-primary float-right">1</span></span></a>
+                                <a href="InicioAdmin.aspx" class="waves-effect"><i class="mdi mdi-store"></i><span>Inicio <span class="badge badge-primary float-right">1</span></span></a>
                             </li>
 
                             <li>
-                                <a href="PageUsuarios.aspx" class="waves-effect"><i class="mdi mdi-camera-front-variant"></i><span>Usuarios</span></a>
+                                <a href="UsuariosNegocio.aspx" class="waves-effect"><i class="mdi mdi-camera-front-variant"></i><span>Usuarios</span></a>
                             </li>
 
                             <li>
-                                <a href="PageProductos.aspx" class="waves-effect"><i class="mdi mdi-tag-plus"></i><span>Productos</span></a>
+                                <a href="PageNegocios.aspx" class="waves-effect"><i class="mdi mdi-tag-plus"></i><span>Negocios</span></a>
                             </li>
 
                             <li>
-                                <a href="PageBuscador.aspx" class="waves-effect"><i class="mdi mdi-table-search"></i><span>Buscador</span></a>
-                            </li>
-
-                            <li>
-                                <a href="BuscadorGrande.aspx" class="waves-effect"><i class="mdi mdi-table-search"></i><span>Buscador 2</span></a>
-                            </li>
-
-                            <li>
-                                <a href="PagePedidos.aspx" class="waves-effect"><i class="mdi mdi-square-edit-outline"></i><span>Pedidos</span></a>
+                                <a href="#" class="waves-effect"><i class="mdi mdi-table-search"></i><span>Buscador</span></a>
                             </li>
 
                         </ul>
@@ -146,7 +136,7 @@
 
                     <div class="">
                         <div class="page-header-title">
-                            <h4 id="lblNombreNegocio" class="page-title">Negocio</h4>
+                            <h4 id="lblNombreNegocio" class="page-title">Administrador</h4>
                         </div>
                     </div>
 
@@ -171,27 +161,26 @@
 
 
         <!-- jQuery  -->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/popper.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/modernizr.min.js"></script>
-        <script src="assets/js/detect.js"></script>
-        <script src="assets/js/fastclick.js"></script>
-        <script src="assets/js/jquery.slimscroll.js"></script>
-        <script src="assets/js/jquery.blockUI.js"></script>
-        <script src="assets/js/waves.js"></script>
-        <script src="assets/js/wow.min.js"></script>
-        <script src="assets/js/jquery.nicescroll.js"></script>
-        <script src="assets/js/jquery.scrollTo.min.js"></script>
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../assets/js/popper.min.js"></script>
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/modernizr.min.js"></script>
+        <script src="../assets/js/detect.js"></script>
+        <script src="../assets/js/fastclick.js"></script>
+        <script src="../assets/js/jquery.slimscroll.js"></script>
+        <script src="../assets/js/jquery.blockUI.js"></script>
+        <script src="../assets/js/waves.js"></script>
+        <script src="../assets/js/wow.min.js"></script>
+        <script src="../assets/js/jquery.nicescroll.js"></script>
+        <script src="../assets/js/jquery.scrollTo.min.js"></script>
 
-        <script src="assets/pluginzero/toastr/toastr.min.js"></script>
-        <script src="assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
-        <script src="assets/plugins/loadingoverlay/loadingoverlay.js"></script>
+        <script src="../assets/pluginzero/toastr/toastr.min.js"></script>
+        <script src="../assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
+        <script src="../assets/plugins/loadingoverlay/loadingoverlay.js"></script>
 
 
-        <script src="assets/js/app.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
-        <script src="js/Masterpa.js?v=<%= DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/javascript"></script>
+        <script src="../assets/js/app.js"></script>
+        <script src="jsAdmin/Masterpa.js?v=<%= DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/javascript"></script>
         <asp:ContentPlaceHolder ID="footer" runat="server"></asp:ContentPlaceHolder>
     </body>
 </html>
