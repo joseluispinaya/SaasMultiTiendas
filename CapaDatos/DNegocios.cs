@@ -1,4 +1,5 @@
-﻿using CapaEntidad.Entidades;
+﻿using CapaEntidad.DTOs;
+using CapaEntidad.Entidades;
 using CapaEntidad.Responses;
 using System;
 using System.Collections.Generic;
@@ -74,5 +75,60 @@ namespace CapaDatos
                 };
             }
         }
+
+        public Respuesta<NegocioDTO> DatosNegocio(int IdNegocio)
+        {
+            try
+            {
+                NegocioDTO obj = null;
+
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand comando = new SqlCommand("usp_ObtenerDatosNegocio", con))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.AddWithValue("@IdNegocio", IdNegocio);
+
+                        con.Open();
+                        using (SqlDataReader dr = comando.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                obj = new NegocioDTO
+                                {
+                                    IdNegocio = Convert.ToInt32(dr["IdNegocio"]),
+                                    NombreTienda = dr["NombreTienda"].ToString(),
+                                    NombrePropietario = dr["NombrePropietario"].ToString(),
+                                    Celular = dr["Celular"].ToString(),
+                                    FechaInicio = Convert.ToDateTime(dr["FechaInicioSuscripcion"]).ToString("dd/MM/yyyy"),
+                                    FechaInicioDate = Convert.ToDateTime(dr["FechaInicioSuscripcion"]),
+                                    FechaFin = Convert.ToDateTime(dr["FechaVencimientoSuscripcion"]).ToString("dd/MM/yyyy"),
+                                    FechaFinDate = Convert.ToDateTime(dr["FechaVencimientoSuscripcion"]),
+                                    Activo = Convert.ToBoolean(dr["Activo"]),
+                                    NroUsuarios = Convert.ToInt32(dr["NroUsuarios"])
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return new Respuesta<NegocioDTO>
+                {
+                    Estado = obj != null,
+                    Data = obj,
+                    Mensaje = obj != null ? "Informacion Negocio" : "No se encontro informacion del Negocio."
+                };
+            }
+            catch (Exception)
+            {
+                return new Respuesta<NegocioDTO>
+                {
+                    Estado = false,
+                    Mensaje = "Ocurrió un error en el servidor. Intente más tarde.",
+                    Data = null
+                };
+            }
+        }
+
     }
 }

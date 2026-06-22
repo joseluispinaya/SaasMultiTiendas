@@ -386,7 +386,19 @@
     <Content Include="assets\pluginzero\toastr\toastr.min.css" />
     <Content Include="assets\pluginzero\toastr\toastr.min.js" />
     <Content Include="BuscadorGrande.aspx" />
+    <Content Include="images\icon-128x128.png" />
+    <Content Include="images\icon-144x144.png" />
+    <Content Include="images\icon-152x152.png" />
+    <Content Include="images\icon-192.png" />
+    <Content Include="images\icon-192x192.png" />
+    <Content Include="images\icon-384x384.png" />
+    <Content Include="images\icon-512.png" />
+    <Content Include="images\icon-512x512.png" />
+    <Content Include="images\icon-72x72.png" />
+    <Content Include="images\icon-96x96.png" />
     <Content Include="images\mitiendita.png" />
+    <Content Include="images\screenshot-desktop.png" />
+    <Content Include="images\screenshot-mobile.png" />
     <Content Include="Inicio.aspx" />
     <Content Include="js\BuscadorGrande.js" />
     <Content Include="js\Login.js" />
@@ -394,6 +406,7 @@
     <Content Include="js\PageBuscador.js" />
     <Content Include="js\PagePedidos.js" />
     <Content Include="js\PageProductos.js" />
+    <Content Include="js\PageReportes.js" />
     <Content Include="js\PageUsuarios.js" />
     <Content Include="Login.aspx" />
     <Content Include="PageAdmin\InicioAdmin.aspx" />
@@ -405,6 +418,7 @@
     <Content Include="PageProductos.aspx" />
     <Content Include="PageReportes.aspx" />
     <Content Include="PageUsuarios.aspx" />
+    <Content Include="service-worker.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -589,6 +603,7 @@
     <Content Include="assets\scss\_menu.scss" />
     <Content Include="assets\scss\_pages.scss" />
     <Content Include="assets\scss\_responsive.scss" />
+    <Content Include="manifest.json" />
     <None Include="packages.config" />
     <Content Include="PageMaster.Master" />
     <Content Include="PageAdmin\AdminMaster.Master" />

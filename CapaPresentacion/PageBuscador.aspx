@@ -33,16 +33,17 @@
                     </h5>
 
                     <div class="form-group mb-4 mt-3">
-                        <label for="cboBuscarProducto" class="font-weight-bold text-muted mb-1"><i class="fas fa-search mr-1"></i>Buscar Artículo</label>
+                        <label for="cboBuscarProducto" class="font-weight-bold text-muted mb-1"><i class="fas fa-search mr-1"></i>Buscar Producto</label>
                         <select class="form-control" id="cboBuscarProducto" style="width: 100%;">
                         </select>
                     </div>
 
                     <div id="detalleProducto" class="alert alert-secondary border d-none text-center p-4">
-                        <p class="text-dark mb-1" id="lblCodigoProducto">CÓDIGO</p>
-                        <h4 class="text-dark fw-bold mb-3" id="lblNombreProducto">Nombre del Producto</h4>
+                        <h4 class="text-dark fw-bold mb-1" id="lblNombreProducto">Nombre del Producto</h4>
+                        <p class="text-dark mb-1" id="lblCodigoProducto">DETALLE</p>
+                        <span class="text-danger d-block mb-3" id="lblPrecioCompra">0.00 Bs</span>
                         <hr>
-                        <span class="text-dark d-block mb-1">Precio de Venta</span>
+                        <span class="text-dark d-block">PRECIO DE VENTA</span>
                         <h1 class="text-success fw-bolder mb-0" id="lblPrecioVenta">0.00 Bs.</h1>
                     </div>
                 </div>

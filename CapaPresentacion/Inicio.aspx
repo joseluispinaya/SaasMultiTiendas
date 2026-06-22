@@ -37,8 +37,11 @@
                         <i class="fas fa-chalkboard-teacher fa-2x emi-text-primary"></i>
                     </div>
                     <h5 class="font-weight-bold text-dark">Usuarios Sis</h5>
-                    <p class="text-muted small">Administración de perfiles, datos personales y asignaciones de roles.</p>
-                    <button class="btn btn-outline-emi btn-sm mt-2">Gestionar <i class="fas fa-arrow-right ml-1"></i></button>
+                    <p class="text-dark small">Administración de perfiles, datos personales y asignaciones de roles.</p>
+                    <a href="PageUsuarios.aspx" class="btn btn-outline-emi btn-sm mt-2">
+                        Gestionar <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                    <%--<button class="btn btn-outline-emi btn-sm mt-2">Gestionar <i class="fas fa-arrow-right ml-1"></i></button>--%>
                 </div>
             </div>
         </div>
@@ -50,8 +53,11 @@
                         <i class="fas fa-clock fa-2x emi-text-primary"></i>
                     </div>
                     <h5 class="font-weight-bold text-dark">Productos y Precios</h5>
-                    <p class="text-muted small">Configuración de productos descripcion y precios de compra y venta</p>
-                    <button class="btn btn-outline-emi btn-sm mt-2">Configurar <i class="fas fa-arrow-right ml-1"></i></button>
+                    <p class="text-dark small">Configuración de productos descripcion y precios de compra y venta</p>
+                    <a href="PageProductos.aspx" class="btn btn-outline-emi btn-sm mt-2">
+                        Configurar <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                    <%--<button class="btn btn-outline-emi btn-sm mt-2">Configurar <i class="fas fa-arrow-right ml-1"></i></button>--%>
                 </div>
             </div>
         </div>
@@ -63,8 +69,11 @@
                         <i class="fas fa-dollar-sign fa-2x emi-text-primary"></i>
                     </div>
                     <h5 class="font-weight-bold text-dark">Buscador de Productos</h5>
-                    <p class="text-muted small">Consulta rapida de productos registrados en el sistema.</p>
-                    <button class="btn btn-outline-emi btn-sm mt-2">Buscar <i class="fas fa-arrow-right ml-1"></i></button>
+                    <p class="text-dark small">Consulta rapida de productos registrados en el sistema.</p>
+                    <a href="PageBuscador.aspx" class="btn btn-outline-emi btn-sm mt-2">
+                        Buscar <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                    <%--<button class="btn btn-outline-emi btn-sm mt-2">Buscar <i class="fas fa-arrow-right ml-1"></i></button>--%>
                 </div>
             </div>
         </div>

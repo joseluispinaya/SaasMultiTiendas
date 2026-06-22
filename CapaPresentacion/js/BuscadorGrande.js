@@ -85,8 +85,8 @@ function renderizarListCardProductos(listaDibujar) {
                         <hr class="w-100 mt-auto mb-2" style="border-color: #e2e8f0;">
                         
                         <div class="text-right">
-                            <span class="text-dark mr-2">Precio:</span>
-                            <span class="text-success font-weight-bold" style="font-size: 1.5rem;">${precioFormat} Bs.</span>
+                            <span class="text-dark mr-2">PRECIO:</span>
+                            <span class="text-success font-weight-bold" style="font-size: 1.4rem;">${precioFormat} Bs.</span>
                         </div>
 
                     </div>

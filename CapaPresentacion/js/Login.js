@@ -57,7 +57,9 @@ $(document).ready(function () {
 
                     const usuarioData = response.d.Data;
 
-                    sessionStorage.setItem('clienteTienda', JSON.stringify(usuarioData));
+                    //sessionStorage.setItem('clienteTienda', JSON.stringify(usuarioData));
+                    localStorage.setItem('clienteTienda', JSON.stringify(usuarioData));
+
                     Swal.fire({
                         title: "Bienvenido",
                         text: `Hola ${usuarioData.UsuarioSis || "Usuario"} 👋`,

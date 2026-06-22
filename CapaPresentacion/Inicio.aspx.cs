@@ -18,7 +18,7 @@ namespace CapaPresentacion
 
         }
 
-        [WebMethod(EnableSession = true)] // <--- OBLIGATORIO para poder borrarla
+        [WebMethod(EnableSession = true)]
         public static Respuesta<bool> CerrarSesion()
         {
             try

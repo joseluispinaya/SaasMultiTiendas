@@ -6,6 +6,9 @@
 <head>
     <meta charset="utf-8" />
     <title>Mi Tienda</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0f172a">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta content="Sistema multitienda" name="description" />
     <meta content="ThemeDesign" name="author" />
@@ -133,6 +136,10 @@
                                 <a href="PagePedidos.aspx" class="waves-effect"><i class="mdi mdi-square-edit-outline"></i><span>Pedidos</span></a>
                             </li>
 
+                            <li>
+                                <a href="PageReportes.aspx" class="waves-effect"><i class="mdi mdi-contact-mail"></i><span>Suscripcion</span></a>
+                            </li>
+
                         </ul>
                     </div>
                     <div class="clearfix"></div>
@@ -192,6 +199,15 @@
         <script src="assets/js/app.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
         <script src="js/Masterpa.js?v=<%= DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/javascript"></script>
+
+        
         <asp:ContentPlaceHolder ID="footer" runat="server"></asp:ContentPlaceHolder>
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(() => console.log('Service Worker registrado correctamente'))
+                    .catch(err => console.error('Error registrando Service Worker:', err));
+            }
+        </script>
     </body>
 </html>

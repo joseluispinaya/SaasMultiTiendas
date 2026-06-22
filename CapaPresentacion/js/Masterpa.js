@@ -4,7 +4,8 @@ let usuarioGlobal = null;
 let permiso = false;
 
 $(document).ready(function () {
-    const usuarioLog = sessionStorage.getItem('clienteTienda');
+    //const usuarioLog = sessionStorage.getItem('clienteTienda');
+    const usuarioLog = localStorage.getItem('clienteTienda');
 
     // 1. Verificamos si existe el token local
     if (!usuarioLog) {
@@ -44,8 +45,9 @@ function verificarEstado() {
             // SI ESTÁ ACTIVO Y TODO ESTÁ BIEN
             else {
                 try {
-                    const usua = JSON.parse(sessionStorage.getItem('clienteTienda'));
-
+                    //const usua = JSON.parse(sessionStorage.getItem('clienteTienda'));
+                    const usua = JSON.parse(localStorage.getItem('clienteTienda'));
+                    //console.log(usua);
                     // Asignamos el valor a la variable global
                     usuarioGlobal = usua;
 
@@ -65,9 +67,15 @@ function verificarEstado() {
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            // Error de red o servidor 500
             console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
-            MostrarToastZer("No se pudo verificar el estado de su suscripción.", "Error de conexión", "error");
+
+            // Si el servidor da error (ej. Sesión caducada en C#), forzamos la salida
+            MostrarToastZer("Su sesión ha expirado por inactividad.", "Atención", "warning");
+
+            setTimeout(function () {
+                localStorage.removeItem('clienteTienda');
+                window.location.replace('Login.aspx');
+            }, 3000);
         }
     });
 }
@@ -110,41 +118,57 @@ $("#btnCerrarSesion").on("click", function (e) {
         cancelButtonText: "Cancelar",
         closeOnConfirm: false
     }, function () {
+        cerrarSesionSis();
+        //$.ajax({
+        //    type: "POST",
+        //    url: "Inicio.aspx/CerrarSesion",
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (response) {
+        //        if (response.d.Estado) {
 
-        // Llamada AJAX a tu WebMethod perfecto
-        $.ajax({
-            type: "POST",
-            url: "Inicio.aspx/CerrarSesion",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                if (response.d.Estado) {
+        //            sessionStorage.clear();
 
-                    sessionStorage.clear();
+        //            window.location.replace('Login.aspx');
+        //        } else {
+        //            sessionStorage.clear();
 
-                    // Redirigimos al Login
-                    window.location.replace('Login.aspx');
-                } else {
-                    sessionStorage.clear();
+        //            window.location.replace('Login.aspx');
+        //        }
+        //    },
+        //    error: function (xhr) {
+        //        console.log(xhr.responseText);
+        //        sessionStorage.clear();
 
-                    // Redirigimos al Login
-                    window.location.replace('Login.aspx');
-                    //swal("Error", "No se pudo cerrar la sesión correctamente.", "error");
-                }
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-                sessionStorage.clear();
-
-                // Redirigimos al Login
-                window.location.replace('Login.aspx');
-                //swal("Error", "Fallo de comunicación con el servidor.", "error");
-            }
-        });
+        //        window.location.replace('Login.aspx');
+        //    }
+        //});
     });
 });
 
 function cerrarSesionSis() {
+    $.ajax({
+        type: "POST",
+        url: "Inicio.aspx/CerrarSesion",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            //sessionStorage.clear();
+            //localStorage.clear();
+            localStorage.removeItem('clienteTienda');
+            window.location.replace('Login.aspx');
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            //sessionStorage.clear();
+            //localStorage.clear();
+            localStorage.removeItem('clienteTienda');
+            window.location.replace('Login.aspx');
+        }
+    });
+}
+
+function cerrarSesionSisOriginal() {
     $.ajax({
         type: "POST",
         url: "Inicio.aspx/CerrarSesion",

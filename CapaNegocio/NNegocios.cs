@@ -1,4 +1,5 @@
 ﻿using CapaDatos;
+using CapaEntidad.DTOs;
 using CapaEntidad.Entidades;
 using CapaEntidad.Responses;
 using System;
@@ -27,6 +28,11 @@ namespace CapaNegocio
         public Respuesta<List<ENegocios>> ListaNegocios()
         {
             return DNegocios.GetInstance().ListaNegocios();
+        }
+
+        public Respuesta<NegocioDTO> DatosNegocio(int IdNegocio)
+        {
+            return DNegocios.GetInstance().DatosNegocio(IdNegocio);
         }
     }
 }

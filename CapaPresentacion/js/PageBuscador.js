@@ -7,13 +7,13 @@ $(document).ready(function () {
 
 // Función principal que orquesta el modo offline/online
 function cargarBuscadorOffline() {
-    console.log("Iniciando carga del buscador...");
+    //console.log("Iniciando carga del buscador...");
     // 1. Intentar cargar desde la base local (LocalForage)
     localforage.getItem('catalogoTienda').then(function (datosGuardados) {
         if (datosGuardados && datosGuardados.length > 0) {
 
             // AQUI SABES QUE ESTÁ USANDO LO LOCAL
-            console.log("Catálogo cargado desde la memoria interna. Productos encontrados:", datosGuardados.length);
+            //console.log("Catálogo cargado desde la memoria interna. Productos encontrados:", datosGuardados.length);
 
             catalogoLocal = datosGuardados;
             configurarSelect2(catalogoLocal);
@@ -24,7 +24,7 @@ function cargarBuscadorOffline() {
         // 2. Independientemente de si había datos o no, intentamos actualizar en segundo plano
         sincronizarConServidor();
     }).catch(function (err) {
-        console.log("Error leyendo la memoria IndexedDB:", err);
+        //console.log("Error leyendo la memoria IndexedDB:", err);
         sincronizarConServidor();
     });
 }
@@ -33,11 +33,11 @@ function sincronizarConServidor() {
     // Si la computadora no tiene red, salimos silenciosamente
     // AQUI VALIDAMOS SI EL NAVEGADOR ESTÁ SIN INTERNET
     if (!navigator.onLine) {
-        console.log("OFFLINE No hay conexión a Internet. El sistema funciona con los datos locales.");
+        //console.log("OFFLINE No hay conexión a Internet. El sistema funciona con los datos locales.");
         return; // Detenemos la función para que no intente hacer el AJAX
     }
 
-    console.log("ONLINE Conexión a Internet detectada. Solicitando datos frescos al servidor...");
+    //console.log("ONLINE Conexión a Internet detectada. Solicitando datos frescos al servidor...");
 
     $.ajax({
         type: "POST",
@@ -66,9 +66,10 @@ function configurarSelect2(datosBase) {
     // 1. Mapeamos la data al formato que Select2 entiende (id y text)
     const datosMapeados = datosBase.map(item => ({
         id: item.IdProducto,
-        text: item.Codigo + ' ' + item.Nombre, // Lo usamos para la búsqueda interna
+        text: item.Codigo + ' ' + item.Nombre, // Lo usamos para la búsqueda interna 
         codigo: item.Codigo,
         nombre: item.Nombre,
+        precioCompra: item.PrecioCompra,
         precio: item.PrecioVenta,
         descripcion: item.Descripcion
     }));
@@ -123,8 +124,11 @@ $("#cboBuscarProducto").on("select2:select", function (e) {
     // Llenamos la tarjeta visual
     $("#lblNombreProducto").text(data.nombre);
 
-    let desc = data.descripcion ? ` - ${data.descripcion}` : "";
-    $("#lblCodigoProducto").text(`CÓDIGO: ${data.codigo}${desc}`);
+    //let desc = data.descripcion ? ` - ${data.descripcion}` : "";
+    $("#lblCodigoProducto").text(`DETALLE: ${data.descripcion}`);
+    //$("#lblCodigoProducto").text(`CÓDIGO: ${data.codigo}${desc}`);
+
+    $("#lblPrecioCompra").text(`Precio Compra: ${parseFloat(data.precioCompra).toFixed(2)} Bs.`);
 
     $("#lblPrecioVenta").text(`${parseFloat(data.precio).toFixed(2)} Bs.`);
 
