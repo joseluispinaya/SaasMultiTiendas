@@ -36,8 +36,8 @@
                                     <th>Id</th>
                                     <th>Datos del Negocio</th>
                                     <th>Celular</th>
-                                    <th>Fecha Inicio</th>
-                                    <th>Fecha Fin</th>
+                                    <th>Fecha Suscripcion</th>
+                                    <th>Vigencia</th>
                                     <th>Estado</th>
                                     <th>Opciones</th>
                                 </tr>

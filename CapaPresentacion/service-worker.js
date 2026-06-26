@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'mitienda-cache-v4';
+﻿const CACHE_NAME = 'mitienda-cache-v5';
 
 // 1. Archivos locales estáticos a cachear (Ajustado a WebAdmin)
 const urlsToCache = [

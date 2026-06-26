@@ -2,28 +2,47 @@
 let catalogoProductos = [];
 
 $(document).ready(function () {
-    cargarProductos();
+    //cargarProductos();
+
+    // Escuchamos los eventos que emite Masterpa.js
+    $(document).on("catalogoListo catalogoActualizado", function () {
+        // Dibujamos usando la variable global
+        renderizarListCardProductos(catalogoGlobal.slice(0, 10));
+    });
+
+    if (catalogoGlobal.length > 0) {
+        renderizarListCardProductos(catalogoGlobal.slice(0, 10));
+    }
 
     // Evento de búsqueda en tiempo real (mientras el usuario teclea)
     $("#txtBuscarProducto").on("keyup", function () {
         let textoBusqueda = $(this).val().toLowerCase().trim();
 
+        // 1. Si está vacío o tiene menos de 3 letras, mostramos los 20 por defecto
+        if (textoBusqueda.length < 3) {
+            $("#alertaSinresult").hide();
+            renderizarListCardProductos(catalogoGlobal.slice(0, 10));
+            return;
+        }
+
         // Filtramos el arreglo original buscando coincidencias en Nombre o Código
-        let productosFiltrados = catalogoProductos.filter(function (prod) {
+        let productosFiltrados = catalogoGlobal.filter(function (prod) {
             let nombre = prod.Nombre.toLowerCase();
             let codigo = prod.Codigo.toLowerCase();
             return nombre.includes(textoBusqueda) || codigo.includes(textoBusqueda);
         });
 
         // Mostramos u ocultamos la alerta de "Sin resultados"
-        if (productosFiltrados.length === 0 && textoBusqueda !== "") {
+        if (productosFiltrados.length === 0) {
             $("#alertaSinresult").show();
         } else {
             $("#alertaSinresult").hide();
         }
 
-        // Renderizamos las tarjetas con la lista filtrada
-        renderizarListCardProductos(productosFiltrados);
+        // 4. Renderizamos los resultados. 
+        // También aplicamos un límite (ej. 20) a la búsqueda para evitar 
+        // que se cuelgue si el usuario escribe solo la letra "a" (que coincide con casi todo)
+        renderizarListCardProductos(productosFiltrados.slice(0, 10));
     });
 });
 
@@ -39,8 +58,11 @@ function cargarProductos() {
             if (response.d.Estado) {
                 catalogoProductos = response.d.Data;
 
+                // MODIFICACIÓN: Dibujamos únicamente los primeros 20
+                renderizarListCardProductos(catalogoProductos.slice(0, 10));
+
                 // Primera carga: mandamos todo el catálogo a dibujar
-                renderizarListCardProductos(catalogoProductos);
+                //renderizarListCardProductos(catalogoProductos);
             } else {
                 AlertaTimerTipo("Atención", response.d.Mensaje, "warning");
             }

@@ -147,6 +147,24 @@
     <Content Include="assets\images\whatss\icon.svg" />
     <Content Include="assets\images\whatss\loader.gif" />
     <Content Include="assets\images\whatss\questioni.svg" />
+    <Content Include="assets\jquery-ui-1.12.1\AUTHORS.txt" />
+    <Content Include="assets\jquery-ui-1.12.1\external\jquery\jquery.js" />
+    <Content Include="assets\jquery-ui-1.12.1\images\ui-icons_444444_256x240.png" />
+    <Content Include="assets\jquery-ui-1.12.1\images\ui-icons_555555_256x240.png" />
+    <Content Include="assets\jquery-ui-1.12.1\images\ui-icons_777620_256x240.png" />
+    <Content Include="assets\jquery-ui-1.12.1\images\ui-icons_777777_256x240.png" />
+    <Content Include="assets\jquery-ui-1.12.1\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="assets\jquery-ui-1.12.1\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="assets\jquery-ui-1.12.1\index.html" />
+    <Content Include="assets\jquery-ui-1.12.1\jquery-ui.css" />
+    <Content Include="assets\jquery-ui-1.12.1\jquery-ui.js" />
+    <Content Include="assets\jquery-ui-1.12.1\jquery-ui.min.css" />
+    <Content Include="assets\jquery-ui-1.12.1\jquery-ui.min.js" />
+    <Content Include="assets\jquery-ui-1.12.1\jquery-ui.structure.css" />
+    <Content Include="assets\jquery-ui-1.12.1\jquery-ui.structure.min.css" />
+    <Content Include="assets\jquery-ui-1.12.1\jquery-ui.theme.css" />
+    <Content Include="assets\jquery-ui-1.12.1\jquery-ui.theme.min.css" />
+    <Content Include="assets\jquery-ui-1.12.1\LICENSE.txt" />
     <Content Include="assets\js\app.js" />
     <Content Include="assets\js\bootstrap.min.js" />
     <Content Include="assets\js\detect.js" />
@@ -401,6 +419,7 @@
     <Content Include="images\screenshot-mobile.png" />
     <Content Include="Inicio.aspx" />
     <Content Include="js\BuscadorGrande.js" />
+    <Content Include="js\BuscadorPrueba.js" />
     <Content Include="js\Login.js" />
     <Content Include="js\Masterpa.js" />
     <Content Include="js\PageBuscador.js" />
@@ -412,7 +431,9 @@
     <Content Include="PageAdmin\InicioAdmin.aspx" />
     <Content Include="PageAdmin\jsAdmin\Masterpa.js" />
     <Content Include="PageAdmin\jsAdmin\PageNegocios.js" />
+    <Content Include="PageAdmin\jsAdmin\UsuariosNegocio.js" />
     <Content Include="PageAdmin\PageNegocios.aspx" />
+    <Content Include="PageAdmin\UsuariosNegocio.aspx" />
     <Content Include="PageBuscador.aspx" />
     <Content Include="PagePedidos.aspx" />
     <Content Include="PageProductos.aspx" />
@@ -463,6 +484,13 @@
     </Compile>
     <Compile Include="PageAdmin\PageNegocios.aspx.designer.cs">
       <DependentUpon>PageNegocios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PageAdmin\UsuariosNegocio.aspx.cs">
+      <DependentUpon>UsuariosNegocio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageAdmin\UsuariosNegocio.aspx.designer.cs">
+      <DependentUpon>UsuariosNegocio.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageBuscador.aspx.cs">
       <DependentUpon>PageBuscador.aspx</DependentUpon>

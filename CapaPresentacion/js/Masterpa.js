@@ -1,6 +1,7 @@
 ﻿
 // VARIABLE GLOBAL DEL USUARIO (Disponible para páginas hijas)
 let usuarioGlobal = null;
+let catalogoGlobal = []; // <-- NUEVA VARIABLE GLOBAL PARA EL INVENTARIO
 let permiso = false;
 
 $(document).ready(function () {
@@ -16,6 +17,7 @@ $(document).ready(function () {
     // 2. Si existe, validamos con el servidor antes de pintar la interfaz
     verificarEstado();
     verificarPermisos();
+    cargarCatalogoCentral();
 });
 
 function verificarEstado() {
@@ -100,6 +102,48 @@ function verificarPermisos() {
             // Error de red o servidor 500
             console.log(xhr.status + " \n" + xhr.responseText, "\n" + thrownError);
             MostrarToastZer("No se pudo verificar el estado de permisos.", "Error de conexión", "error");
+        }
+    });
+}
+
+function cargarCatalogoCentral() {
+    // Intentar cargar desde la base local (LocalForage)
+    localforage.getItem('catalogoTiendados').then(function (datosGuardados) {
+        if (datosGuardados && datosGuardados.length > 0) {
+            catalogoGlobal = datosGuardados;
+            // AVISAMOS A LAS PÁGINAS HIJAS QUE YA HAY DATOS LOCALES
+            $(document).trigger("catalogoListo");
+        }
+
+        // Independientemente de si había datos o no, sincronizamos
+        sincronizarCatalogoServidor();
+    }).catch(function (err) {
+        sincronizarCatalogoServidor();
+    });
+}
+
+function sincronizarCatalogoServidor() {
+    if (!navigator.onLine) {
+        return; // Sin internet, nos quedamos con lo de LocalForage
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "Inicio.aspx/ListaProductosOffline",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            if (response.d.Estado) {
+                catalogoGlobal = response.d.Data;
+                //console.log(catalogoGlobal);
+                localforage.setItem('catalogoTiendados', catalogoGlobal);
+
+                // AVISAMOS A LAS PÁGINAS HIJAS QUE HAY DATOS FRESCOS (Precios actualizados)
+                $(document).trigger("catalogoActualizado");
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log("Sincronización en pausa. Usando datos locales.");
         }
     });
 }

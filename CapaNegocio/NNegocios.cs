@@ -25,7 +25,7 @@ namespace CapaNegocio
         }
         #endregion
 
-        public Respuesta<List<ENegocios>> ListaNegocios()
+        public Respuesta<List<NegocioDTO>> ListaNegocios()
         {
             return DNegocios.GetInstance().ListaNegocios();
         }
@@ -34,5 +34,11 @@ namespace CapaNegocio
         {
             return DNegocios.GetInstance().DatosNegocio(IdNegocio);
         }
+
+        public Respuesta<int> GuardarOrEditNegocios(NegocioDTO oModel)
+        {
+            return DNegocios.GetInstance().GuardarOrEditNegocios(oModel);
+        }
+
     }
 }

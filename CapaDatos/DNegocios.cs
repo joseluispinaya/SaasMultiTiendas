@@ -26,11 +26,78 @@ namespace CapaDatos
         }
         #endregion
 
-        public Respuesta<List<ENegocios>> ListaNegocios()
+        public Respuesta<int> GuardarOrEditNegocios(NegocioDTO oModel)
+        {
+            Respuesta<int> response = new Respuesta<int>();
+            int resultadoCodigo = 0;
+            try
+            {
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("usp_GuardarOrEditNegocio", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@IdNegocio", oModel.IdNegocio);
+                        cmd.Parameters.AddWithValue("@NombreTienda", oModel.NombreTienda);
+                        cmd.Parameters.AddWithValue("@NombrePropietario", oModel.NombrePropietario);
+                        cmd.Parameters.AddWithValue("@Celular", oModel.Celular);
+                        cmd.Parameters.AddWithValue("@FechaInicioSuscripcion", oModel.FechaInicioDate);
+                        cmd.Parameters.AddWithValue("@FechaVencimientoSuscripcion", oModel.FechaFinDate);
+                        cmd.Parameters.AddWithValue("@Activo", oModel.Activo);
+
+                        SqlParameter outputParam = new SqlParameter("@Resultado", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputParam);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        resultadoCodigo = Convert.ToInt32(outputParam.Value);
+                    }
+                }
+                response.Data = resultadoCodigo;
+                switch (resultadoCodigo)
+                {
+                    case 1: // Duplicado
+                        response.Estado = false;
+                        response.Valor = "warning";
+                        response.Mensaje = "Ya existe un negocio con el mismo nombre.";
+                        break;
+
+                    case 2: // Registro Nuevo
+                        response.Estado = true;
+                        response.Valor = "success";
+                        response.Mensaje = "Registrado correctamente.";
+                        break;
+
+                    case 3: // Actualización
+                        response.Estado = true;
+                        response.Valor = "success";
+                        response.Mensaje = "Actualizado correctamente.";
+                        break;
+
+                    case 0: // Error
+                    default:
+                        response.Estado = false;
+                        response.Valor = "error";
+                        response.Mensaje = "No se pudo completar la operación.";
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Estado = false;
+                response.Valor = "error";
+                response.Mensaje = $"Error interno: {ex.Message}";
+            }
+            return response;
+        }
+
+        public Respuesta<List<NegocioDTO>> ListaNegocios()
         {
             try
             {
-                List<ENegocios> rptLista = new List<ENegocios>();
+                List<NegocioDTO> rptLista = new List<NegocioDTO>();
 
                 using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
                 {
@@ -43,21 +110,24 @@ namespace CapaDatos
                         {
                             while (dr.Read())
                             {
-                                rptLista.Add(new ENegocios
+                                rptLista.Add(new NegocioDTO
                                 {
                                     IdNegocio = Convert.ToInt32(dr["IdNegocio"]),
                                     NombreTienda = dr["NombreTienda"].ToString(),
                                     NombrePropietario = dr["NombrePropietario"].ToString(),
                                     Celular = dr["Celular"].ToString(),
                                     FechaInicio = Convert.ToDateTime(dr["FechaInicioSuscripcion"]).ToString("dd/MM/yyyy"),
+                                    FechaInicioDate = Convert.ToDateTime(dr["FechaInicioSuscripcion"]),
                                     FechaFin = Convert.ToDateTime(dr["FechaVencimientoSuscripcion"]).ToString("dd/MM/yyyy"),
-                                    Activo = Convert.ToBoolean(dr["Activo"])
+                                    FechaFinDate = Convert.ToDateTime(dr["FechaVencimientoSuscripcion"]),
+                                    Activo = Convert.ToBoolean(dr["Activo"]),
+                                    NroUsuarios = Convert.ToInt32(dr["NroUsuarios"])
                                 });
                             }
                         }
                     }
                 }
-                return new Respuesta<List<ENegocios>>()
+                return new Respuesta<List<NegocioDTO>>()
                 {
                     Estado = true,
                     Data = rptLista,
@@ -67,7 +137,7 @@ namespace CapaDatos
             catch (Exception ex)
             {
                 // Maneja cualquier error inesperado
-                return new Respuesta<List<ENegocios>>()
+                return new Respuesta<List<NegocioDTO>>()
                 {
                     Estado = false,
                     Mensaje = $"Error al obtener la lista: {ex.Message}",
