@@ -404,6 +404,7 @@
     <Content Include="assets\pluginzero\toastr\toastr.min.css" />
     <Content Include="assets\pluginzero\toastr\toastr.min.js" />
     <Content Include="BuscadorGrande.aspx" />
+    <Content Include="Default.aspx" />
     <Content Include="images\icon-128x128.png" />
     <Content Include="images\icon-144x144.png" />
     <Content Include="images\icon-152x152.png" />
@@ -415,6 +416,7 @@
     <Content Include="images\icon-72x72.png" />
     <Content Include="images\icon-96x96.png" />
     <Content Include="images\mitiendita.png" />
+    <Content Include="images\Mitienditaze.png" />
     <Content Include="images\screenshot-desktop.png" />
     <Content Include="images\screenshot-mobile.png" />
     <Content Include="Inicio.aspx" />
@@ -428,7 +430,9 @@
     <Content Include="js\PageReportes.js" />
     <Content Include="js\PageUsuarios.js" />
     <Content Include="Login.aspx" />
+    <Content Include="PageAdmin\ConsultasProduct.aspx" />
     <Content Include="PageAdmin\InicioAdmin.aspx" />
+    <Content Include="PageAdmin\jsAdmin\ConsultasProduct.js" />
     <Content Include="PageAdmin\jsAdmin\Masterpa.js" />
     <Content Include="PageAdmin\jsAdmin\PageNegocios.js" />
     <Content Include="PageAdmin\jsAdmin\UsuariosNegocio.js" />
@@ -450,6 +454,13 @@
     <Compile Include="BuscadorGrande.aspx.designer.cs">
       <DependentUpon>BuscadorGrande.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Inicio.aspx.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -470,6 +481,13 @@
     </Compile>
     <Compile Include="PageAdmin\AdminMaster.Master.designer.cs">
       <DependentUpon>AdminMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="PageAdmin\ConsultasProduct.aspx.cs">
+      <DependentUpon>ConsultasProduct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageAdmin\ConsultasProduct.aspx.designer.cs">
+      <DependentUpon>ConsultasProduct.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageAdmin\InicioAdmin.aspx.cs">
       <DependentUpon>InicioAdmin.aspx</DependentUpon>

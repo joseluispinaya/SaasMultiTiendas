@@ -38,7 +38,7 @@
                 <div class="topbar-left">
                     <div class="text-center">
                         <a href="javascript:void(0)" class="logo"><span>Mi </span>Tienda</a>
-                        <a href="javascript:void(0)" class="logo-sm"><span>M</span></a>
+                        <a href="javascript:void(0)" class="logo-sm"><span>T</span></a>
                         <%--<a href="Inicio.aspx" class="logo"><img src="assets/images/mitienda.png" height="35" alt="TIENDA"></a>
                         <a href="Inicio.aspx" class="logo-sm"><img src="assets/images/logo_sm.png" height="28" alt="TIENDA"></a>--%>
                     </div>
@@ -91,7 +91,7 @@
 
                     <div class="user-details">
                         <div class="text-center">
-                            <img src="assets/images/mitienda.png" alt="" id="imageUserMe" class="rounded-circle">
+                            <img src="images/Mitienditaze.png" alt="" id="imageUserMe" class="rounded-circle">
                         </div>
                         <div class="user-info">
                             <div class="dropdown">

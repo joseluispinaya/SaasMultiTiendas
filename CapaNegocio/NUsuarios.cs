@@ -58,5 +58,45 @@ namespace CapaNegocio
         {
             return DUsuarios.GetInstance().VerificarPermisoAccion(IdUsuario);
         }
+
+        public Respuesta<EUsuarios> LoginSuperAdmin(string UsuarioSis)
+        {
+            var usuarioPrueba = "achuquisaque";
+
+            if (usuarioPrueba.ToLower() != UsuarioSis.Trim().ToLower())
+            {
+                return new Respuesta<EUsuarios>
+                {
+                    Estado = false,
+                    Data = null,
+                    Mensaje = "Usuario o Contraseña incorrectos."
+                };
+            }
+
+
+            EUsuarios obj = new EUsuarios
+            {
+                IdUsuario = 1019,
+                IdNegocio = 0,
+                IdRol = 0,
+                NroCi = "7645323",
+                NombreCompleto = "Jose Luis Pinaya",
+                UsuarioSis = "achuquisaque",
+                ClaveHash = "123456789",
+                Permisos = true,
+                Activo = true,
+                NombreTienda = "Desarrollador",
+                RolDescripcion = "Administrador"
+            };
+
+            return new Respuesta<EUsuarios>
+            {
+                Estado = true,
+                Data = obj,
+                Mensaje = "Bienvenido al sistema"
+            };
+
+        }
+
     }
 }

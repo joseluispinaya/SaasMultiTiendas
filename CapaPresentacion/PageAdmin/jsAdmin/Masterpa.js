@@ -1,4 +1,57 @@
 ﻿
+$(document).ready(function () {
+    const usuarioAdmin = localStorage.getItem('clienteTienda');
+
+    if (!usuarioAdmin) {
+        window.location.replace('../Login.aspx');
+        return;
+    }
+
+    try {
+        const usua = JSON.parse(usuarioAdmin);
+        $("#textDevv").text(usua.NombreTienda);
+    } catch (error) {
+        console.error("Error leyendo sesión", error);
+        cerrarSesionSis();
+    }
+});
+
+$("#btnCerrarSesion").on("click", function (e) {
+    e.preventDefault();
+
+    // Opcional: Un SweetAlert preguntando si está seguro (Mejora de UX)
+    swal({
+        title: "¿Cerrar Sesión?",
+        text: "¿Estás seguro que deseas salir del sistema?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc3545",
+        confirmButtonText: "Sí, salir",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: false
+    }, function () {
+        cerrarSesionSis();
+    });
+});
+
+function cerrarSesionSis() {
+    $.ajax({
+        type: "POST",
+        url: "InicioAdmin.aspx/CerrarSesion",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            localStorage.removeItem('clienteTienda');
+            window.location.replace('../Login.aspx');
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            localStorage.removeItem('clienteTienda');
+            window.location.replace('../Login.aspx');
+        }
+    });
+}
+
 function MostrarAlerta(titulo, mensaje, tipo) {
     // Si no se envía un tipo, por defecto será 'success'
     swal(titulo, mensaje, tipo || "success");

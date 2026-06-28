@@ -1,6 +1,8 @@
 ﻿
 $(document).ready(function () {
 
+    localStorage.removeItem('clienteTienda');
+
     // Foco inicial automático
     $('#txtUsuario').focus();
 
@@ -74,7 +76,12 @@ $(document).ready(function () {
 
                     setTimeout(() => window.location.href = response.d.Valor, 2200);
                 } else {
-                    swal("Mensaje", response.d.Mensaje, "warning");
+                    Swal.fire({
+                        title: "Error",
+                        text: response.d.Mensaje,
+                        icon: "error"
+                    });
+                    //swal("Mensaje", response.d.Mensaje, "warning");
                     $("#txtUsuario, #txtClave").val("");
                 }
             },
